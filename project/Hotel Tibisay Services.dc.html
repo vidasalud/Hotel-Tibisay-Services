@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { background: #040403; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.04;
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    @keyframes kenBurns { from { transform: scale(1.05); } to { transform: scale(1.0); } }
+    @keyframes chevronBounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+    @media (prefers-reduced-motion: reduce) {
+      [data-reveal] { opacity: 1 !important; transform: none !important; }
+      [data-gold-line] { width: 100% !important; }
+      .hero-img { animation: none !important; transform: scale(1) !important; }
+      .chevron-bounce { animation: none !important; }
+    }
+  </style>
+</helmet>
+
+<div style="position:relative; z-index:1; min-height:100vh; font-family:'Inter',sans-serif; color:#F1EEEA; overflow-x:hidden">
+  <div style="opacity:{{ contentOpacity }}; transition:opacity 0.15s ease">
+
+    <!-- ===== 1. HERO ===== -->
+    <div data-screen-label="Hero" style="position:relative; width:100%; height:80vh; overflow:hidden; border-radius:0 0 28px 28px">
+      <!-- Hero image with Ken Burns -->
+      <img class="hero-img" src="uploads/hero-hotel.png" alt="Hotel Tibisay Boutique" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; animation:kenBurns 8s ease-out forwards">
+      <!-- Gradient overlay -->
+      <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(4,4,3,0.92) 0%, rgba(4,4,3,0.5) 40%, rgba(4,4,3,0.15) 70%, transparent 100%)"></div>
+      <!-- Content -->
+      <div style="position:absolute; bottom:0; left:0; right:0; display:flex; flex-direction:column; align-items:center; padding:0 24px 36px; z-index:2; text-align:center">
+        <div data-reveal style="opacity:0; transform:translateY(12px)">
+          <img src="uploads/logo.png" alt="Hotel Tibisay Boutique" style="max-width:80px; width:100%; height:auto">
+        </div>
+        <div data-reveal data-reveal-delay="0.2" style="opacity:0; transform:translateY(20px); font-family:'Cormorant',serif; font-weight:700; font-size:clamp(26px,6vw,38px); color:#F1EEEA; line-height:1.2; margin-top:16px; letter-spacing:0.03em">{{ heroTitle }}</div>
+        <div data-reveal data-reveal-delay="0.4" style="opacity:0; transform:translateY(16px); font-weight:400; font-size:14px; color:rgba(241,238,234,0.65); margin-top:10px; max-width:300px; line-height:1.5">{{ heroSubtitle }}</div>
+        <!-- Language Toggle -->
+        <div data-reveal data-reveal-delay="0.5" style="opacity:0; transform:translateY(12px); display:flex; gap:8px; margin-top:20px">
+          <button onClick="{{ setEN }}" style="font-family:'Inter',sans-serif; font-weight:500; font-size:13px; padding:8px 20px; border-radius:999px; cursor:pointer; transition:all 0.2s ease; outline:none; -webkit-tap-highlight-color:transparent; background:{{ enBg }}; color:{{ enColor }}; border:1px solid {{ enBorder }}; backdrop-filter:blur(12px)">EN</button>
+          <button onClick="{{ setES }}" style="font-family:'Inter',sans-serif; font-weight:500; font-size:13px; padding:8px 20px; border-radius:999px; cursor:pointer; transition:all 0.2s ease; outline:none; -webkit-tap-highlight-color:transparent; background:{{ esBg }}; color:{{ esColor }}; border:1px solid {{ esBorder }}; backdrop-filter:blur(12px)">ES</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 3. INCLUDED SERVICES ===== -->
+    <div id="services-section" data-screen-label="Included Services" style="padding:40px 20px; max-width:clamp(340px,85vw,560px); margin:0 auto">
+      <div data-reveal style="opacity:0; transform:translateY(16px); font-family:'Cormorant',serif; font-weight:600; font-size:22px; color:#C4A468; text-align:center; margin-bottom:6px; letter-spacing:0.03em">{{ includedTitle }}</div>
+      <div data-reveal data-reveal-delay="0.05" style="opacity:0; transform:translateY(12px); font-weight:400; font-size:13px; color:rgba(241,238,234,0.35); text-align:center; margin-bottom:24px">{{ includedHint }}</div>
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:14px">
+        <div data-reveal data-reveal-scale data-reveal-delay="0" style="opacity:0; transform:translateY(12px) scale(0.9); position:relative; background:rgba(26,21,17,0.80); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:20px; border:1px solid rgba(196,164,104,0.12); box-shadow:0 8px 32px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.3),0 0 1px rgba(196,164,104,0.05); padding:28px 16px; display:flex; flex-direction:column; align-items:center; cursor:pointer; overflow:hidden; user-select:none; -webkit-tap-highlight-color:transparent; transition:transform 0.15s cubic-bezier(0.2,1,0.3,1)" style-active="transform:scale(0.95)" style-before="content:''; position:absolute; top:0; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, #C4A468 30%, #F6D99F 50%, #C4A468 70%, transparent); opacity:0.6; border-radius:1px; filter:blur(1px); z-index:1" onClick="{{ openGym }}">
+          {{ gymIcon }}
+          <div style="font-weight:500; font-size:13px; margin-top:10px; color:#F1EEEA">{{ gymLabel }}</div>
+        </div>
+        <div data-reveal data-reveal-scale data-reveal-delay="0.08" style="opacity:0; transform:translateY(12px) scale(0.9); position:relative; background:rgba(26,21,17,0.80); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:20px; border:1px solid rgba(196,164,104,0.12); box-shadow:0 8px 32px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.3),0 0 1px rgba(196,164,104,0.05); padding:28px 16px; display:flex; flex-direction:column; align-items:center; cursor:pointer; overflow:hidden; user-select:none; -webkit-tap-highlight-color:transparent; transition:transform 0.15s cubic-bezier(0.2,1,0.3,1)" style-active="transform:scale(0.95)" style-before="content:''; position:absolute; top:0; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, #C4A468 30%, #F6D99F 50%, #C4A468 70%, transparent); opacity:0.6; border-radius:1px; filter:blur(1px); z-index:1" onClick="{{ openRestaurant }}">
+          {{ restaurantIcon }}
+          <div style="font-weight:500; font-size:13px; margin-top:10px; color:#F1EEEA">{{ restaurantLabel }}</div>
+        </div>
+        <div data-reveal data-reveal-scale data-reveal-delay="0.16" style="opacity:0; transform:translateY(12px) scale(0.9); position:relative; background:rgba(26,21,17,0.80); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:20px; border:1px solid rgba(196,164,104,0.12); box-shadow:0 8px 32px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.3),0 0 1px rgba(196,164,104,0.05); padding:28px 16px; display:flex; flex-direction:column; align-items:center; cursor:pointer; overflow:hidden; user-select:none; -webkit-tap-highlight-color:transparent; transition:transform 0.15s cubic-bezier(0.2,1,0.3,1)" style-active="transform:scale(0.95)" style-before="content:''; position:absolute; top:0; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, #C4A468 30%, #F6D99F 50%, #C4A468 70%, transparent); opacity:0.6; border-radius:1px; filter:blur(1px); z-index:1" onClick="{{ openOpenbar }}">
+          {{ openbarIcon }}
+          <div style="font-weight:500; font-size:13px; margin-top:10px; color:#F1EEEA">{{ openbarLabel }}</div>
+        </div>
+        <div data-reveal data-reveal-scale data-reveal-delay="0.24" style="opacity:0; transform:translateY(12px) scale(0.9); position:relative; background:rgba(26,21,17,0.80); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:20px; border:1px solid rgba(196,164,104,0.12); box-shadow:0 8px 32px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.3),0 0 1px rgba(196,164,104,0.05); padding:28px 16px; display:flex; flex-direction:column; align-items:center; cursor:pointer; overflow:hidden; user-select:none; -webkit-tap-highlight-color:transparent; transition:transform 0.15s cubic-bezier(0.2,1,0.3,1)" style-active="transform:scale(0.95)" style-before="content:''; position:absolute; top:0; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, #C4A468 30%, #F6D99F 50%, #C4A468 70%, transparent); opacity:0.6; border-radius:1px; filter:blur(1px); z-index:1" onClick="{{ openBeachclub }}">
+          {{ beachclubIcon }}
+          <div style="font-weight:500; font-size:13px; margin-top:10px; color:#F1EEEA">{{ beachclubLabel }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 4. TOWEL SERVICE ===== -->
+    <div style="max-width:360px; margin:0 auto; padding:0 20px">
+      <div data-reveal data-reveal-scale style="opacity:0; transform:translateY(16px) scale(0.97); position:relative; background:rgba(26,21,17,0.80); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:20px; border:1px solid rgba(196,164,104,0.12); box-shadow:0 8px 32px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.3),0 0 1px rgba(196,164,104,0.05); padding:24px; overflow:hidden" style-before="content:''; position:absolute; top:0; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, #C4A468 30%, #F6D99F 50%, #C4A468 70%, transparent); opacity:0.6; border-radius:1px; filter:blur(1px); z-index:1">
+        <div style="display:flex; flex-direction:column; align-items:center; text-align:center">
+          {{ towelIcon }}
+          <div style="font-weight:600; font-size:15px; color:#F1EEEA; margin-top:12px">{{ towelTitle }}</div>
+          <div style="font-weight:400; font-size:13px; color:rgba(241,238,234,0.65); margin-top:8px; line-height:1.6">{{ towelBody }}</div>
+          <div style="font-weight:400; font-size:13px; color:#C4A468; margin-top:12px; line-height:1.5">{{ towelNote }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== GOLD LINE ===== -->
+    <div data-gold-line style="width:0; height:1px; background:rgba(196,164,104,0.25); max-width:80px; margin:36px auto"></div>
+
+    <!-- ===== 5. ADDITIONAL SERVICES ===== -->
+    <div data-screen-label="Additional Services" style="padding:0 20px 40px; max-width:clamp(340px,85vw,560px); margin:0 auto">
+      <div data-reveal style="opacity:0; transform:translateY(16px); font-family:'Cormorant',serif; font-weight:600; font-size:22px; color:#C4A468; text-align:center; margin-bottom:6px; letter-spacing:0.03em">{{ additionalTitle }}</div>
+      <div data-reveal data-reveal-delay="0.08" style="opacity:0; transform:translateY(12px); font-weight:400; font-size:13px; color:rgba(241,238,234,0.45); text-align:center; margin-bottom:24px; line-height:1.5">{{ additionalSubtitle }}</div>
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:14px; max-width:280px; margin:0 auto">
+        <div data-reveal data-reveal-scale data-reveal-delay="0" style="opacity:0; transform:translateY(12px) scale(0.9); position:relative; background:rgba(26,21,17,0.80); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:20px; border:1px solid rgba(196,164,104,0.12); box-shadow:0 8px 32px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.3),0 0 1px rgba(196,164,104,0.05); padding:28px 16px; display:flex; flex-direction:column; align-items:center; cursor:pointer; overflow:hidden; user-select:none; -webkit-tap-highlight-color:transparent; transition:transform 0.15s cubic-bezier(0.2,1,0.3,1)" style-active="transform:scale(0.95)" style-before="content:''; position:absolute; top:0; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, #C4A468 30%, #F6D99F 50%, #C4A468 70%, transparent); opacity:0.6; border-radius:1px; filter:blur(1px); z-index:1" onClick="{{ openSpa }}">
+          {{ spaIcon }}
+          <div style="font-weight:500; font-size:13px; margin-top:10px; color:#F1EEEA">{{ spaLabel }}</div>
+        </div>
+        <div data-reveal data-reveal-scale data-reveal-delay="0.08" style="opacity:0; transform:translateY(12px) scale(0.9); position:relative; background:rgba(26,21,17,0.80); backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px); border-radius:20px; border:1px solid rgba(196,164,104,0.12); box-shadow:0 8px 32px rgba(0,0,0,0.5),0 2px 8px rgba(0,0,0,0.3),0 0 1px rgba(196,164,104,0.05); padding:28px 16px; display:flex; flex-direction:column; align-items:center; cursor:pointer; overflow:hidden; user-select:none; -webkit-tap-highlight-color:transparent; transition:transform 0.15s cubic-bezier(0.2,1,0.3,1)" style-active="transform:scale(0.95)" style-before="content:''; position:absolute; top:0; left:10%; right:10%; height:1px; background:linear-gradient(90deg, transparent, #C4A468 30%, #F6D99F 50%, #C4A468 70%, transparent); opacity:0.6; border-radius:1px; filter:blur(1px); z-index:1" onClick="{{ openCasino }}">
+          {{ casinoIcon }}
+          <div style="font-weight:500; font-size:13px; margin-top:10px; color:#F1EEEA">{{ casinoLabel }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== GOLD LINE ===== -->
+    <div data-gold-line style="width:0; height:1px; background:rgba(196,164,104,0.25); max-width:80px; margin:0 auto"></div>
+
+    <!-- ===== 6. FOOTER ===== -->
+    <div data-reveal data-screen-label="Footer" style="opacity:0; transform:translateY(16px); text-align:center; padding:48px 24px 64px">
+      <div style="font-family:'Cormorant',serif; font-weight:600; font-size:16px; color:#C4A468; line-height:1.5">Hotel Tibisay Boutique · Isla de Margarita</div>
+      <div style="font-weight:400; font-size:13px; color:rgba(241,238,234,0.55); margin-top:8px; line-height:1.5">{{ footerContact }}</div>
+      <div style="font-weight:400; font-size:13px; color:rgba(241,238,234,0.35); margin-top:4px; line-height:1.5">{{ footerClosing }}</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== FLOATING SCROLL BUTTON ===== -->
+<div data-floating-btn style="position:fixed; bottom:28px; left:50%; transform:translateX(-50%); z-index:50; opacity:0; pointer-events:none; transition:opacity 0.35s ease, transform 0.35s ease">
+  <button onClick="{{ scrollToServices }}" style="display:flex; align-items:center; gap:8px; padding:10px 24px; border-radius:999px; border:1px solid rgba(196,164,104,0.20); background:rgba(26,21,17,0.7); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:0 4px 20px rgba(0,0,0,0.4); cursor:pointer; outline:none; -webkit-tap-highlight-color:transparent; font-family:'Inter',sans-serif" aria-label="{{ floatingAriaLabel }}">
+    <svg class="chevron-bounce" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#F6D99F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation:chevronBounce 2s ease-in-out infinite; flex-shrink:0"><path d="M6 9l6 6 6-6"></path></svg>
+    <span style="font-weight:500; font-size:13px; color:#F1EEEA">{{ floatingLabel }}</span>
+  </button>
+</div>
+
+<!-- ===== SERVICE MODAL ===== -->
+<div data-modal-overlay style="position:fixed; inset:0; z-index:1000; background:rgba(4,4,3,0.7); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); opacity:{{ modalOverlayOpacity }}; pointer-events:{{ modalPointerEvents }}; transition:opacity 0.25s ease-out; display:flex; align-items:flex-end; justify-content:center" onClick="{{ closeModal }}">
+  <div style="background:rgba(26,21,17,0.88); backdrop-filter:blur(32px); -webkit-backdrop-filter:blur(32px); border:1px solid rgba(196,164,104,0.08); border-radius:28px 28px 0 0; box-shadow:0 -8px 40px rgba(0,0,0,0.5); max-height:85vh; overflow-y:auto; width:100%; max-width:480px; transform:{{ modalPanelTransform }}; transition:transform 0.35s cubic-bezier(0.22,1,0.36,1); position:relative; -webkit-overflow-scrolling:touch" onClick="{{ stopProp }}">
+    <!-- Handle -->
+    <div style="display:flex; justify-content:center; padding-top:12px">
+      <div style="width:40px; height:4px; border-radius:2px; background:rgba(241,238,234,0.2)"></div>
+    </div>
+    <!-- Close button -->
+    <button data-modal-close onClick="{{ closeModal }}" aria-label="Close" style="position:absolute; top:16px; right:20px; z-index:10; background:none; border:none; cursor:pointer; color:rgba(241,238,234,0.5); padding:4px; transition:color 0.2s ease; outline:none; -webkit-tap-highlight-color:transparent" style-hover="color:#F1EEEA">
+      {{ closeIcon }}
+    </button>
+    <sc-if value="{{ modalHasContent }}" hint-placeholder-val="{{ false }}">
+      <!-- Photo -->
+      <div style="padding:20px 16px 0 16px">
+        <img src="{{ modalImage }}" alt="" loading="lazy" style="width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:16px; display:block; box-shadow:0 2px 12px rgba(0,0,0,0.3)">
+      </div>
+      <!-- Title -->
+      <div style="font-family:'Cormorant',serif; font-weight:700; font-size:24px; color:#F1EEEA; padding:20px 24px 0 24px">{{ modalTitle }}</div>
+      <!-- Description -->
+      <div style="font-weight:400; font-size:14px; color:rgba(241,238,234,0.65); margin-top:6px; padding:0 24px; line-height:1.5">{{ modalDesc }}</div>
+      <!-- Schedule sub-card -->
+      <div style="margin:16px 16px 0 16px; background:rgba(4,4,3,0.4); border-radius:14px; padding:16px">
+        <sc-for list="{{ modalSchedule }}" as="schedLine" hint-placeholder-count="1">
+          <div style="font-weight:500; font-size:14px; color:#F1EEEA; line-height:1.8">{{ schedLine }}</div>
+        </sc-for>
+      </div>
+      <!-- Note -->
+      <sc-if value="{{ modalHasNote }}" hint-placeholder-val="{{ false }}">
+        <div style="font-weight:400; font-size:13px; color:#C4A468; padding:12px 24px 28px 24px; line-height:1.5">{{ modalNote }}</div>
+      </sc-if>
+      <sc-if value="{{ modalHasNoNote }}" hint-placeholder-val="{{ false }}">
+        <div style="padding-bottom:28px"></div>
+      </sc-if>
+    </sc-if>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 390, &quot;height&quot;: 844 },
+  &quot;defaultLang&quot;: {
+    &quot;editor&quot;: &quot;enum&quot;,
+    &quot;options&quot;: [&quot;en&quot;, &quot;es&quot;],
+    &quot;default&quot;: &quot;en&quot;,
+    &quot;tsType&quot;: &quot;'en' | 'es'&quot;
+  }
+}">
+
+class Component extends DCLogic {
+  state = {
+    lang: 'en',
+    activeModal: null,
+    modalVisible: false,
+    fading: false,
+    showFloating: false
+  };
+
+  _services = {
+    gym: {
+      image: 'uploads/Foto-Gym.png',
+      en: { label: 'Gym', title: 'Gym', desc: 'Stay active during your getaway.', schedule: ['Monday \u2013 Friday: 5:10 AM \u2013 10:30 PM', 'Saturday: 6:00 AM \u2013 8:00 PM', 'Sunday: 8:00 AM \u2013 1:00 PM'], note: 'Located on the ground floor. No reservation needed.' },
+      es: { label: 'Gimnasio', title: 'Gimnasio', desc: 'Mantente activo durante tu escapada.', schedule: ['Lunes \u2013 Viernes: 5:10 AM \u2013 10:30 PM', 'S\u00e1bado: 6:00 AM \u2013 8:00 PM', 'Domingo: 8:00 AM \u2013 1:00 PM'], note: 'Ubicado en planta baja. Sin reservaci\u00f3n.' }
+    },
+    restaurant: {
+      image: 'uploads/Foto-Restaurante.png',
+      en: { label: 'Restaurant', title: 'Main Restaurant', desc: 'From breakfast to dinner \u2014 every meal is on us.', schedule: ['Breakfast: 7:00 AM \u2013 10:00 AM', 'Lunch: 12:00 PM \u2013 2:00 PM', 'Snacks: 3:00 PM \u2013 6:00 PM', 'Dinner: 7:00 PM \u2013 10:00 PM'], note: 'Snacks available at Mar y Tierra, the Beach Club, or the Main Restaurant.' },
+      es: { label: 'Restaurante', title: 'Restaurante Principal', desc: 'Del desayuno a la cena \u2014 cada comida corre por nuestra cuenta.', schedule: ['Desayuno: 7:00 AM \u2013 10:00 AM', 'Almuerzo: 12:00 PM \u2013 2:00 PM', 'Snacks: 3:00 PM \u2013 6:00 PM', 'Cena: 7:00 PM \u2013 10:00 PM'], note: 'Snacks disponibles en Mar y Tierra, el Beach Club o el Restaurante Principal.' }
+    },
+    openbar: {
+      image: 'uploads/Foto-Openbar.png',
+      en: { label: 'Open Bar', title: 'Open Bar', desc: 'Cocktails, wines, spirits & soft drinks \u2014 national brands included.', schedule: ['Daily: 11:00 AM \u2013 10:00 PM'], note: null },
+      es: { label: 'Barra Libre', title: 'Barra Libre', desc: 'C\u00f3cteles, vinos, licores y bebidas sin alcohol \u2014 marcas nacionales incluidas.', schedule: ['Todos los d\u00edas: 11:00 AM \u2013 10:00 PM'], note: null }
+    },
+    beachclub: {
+      image: 'uploads/Foto-Beachclub.png',
+      en: { label: 'Beach Club', title: 'Main Beach Club', desc: 'Sun, sand & everything you need to unwind.', schedule: ['Beach Club Pool: 9:00 AM \u2013 6:00 PM', 'Hotel Pool: 9:00 AM \u2013 6:00 PM', 'Beach Club Area: 11:00 AM \u2013 10:00 PM'], note: 'Lounge chairs, huts & 1 hour of paddle tennis included.' },
+      es: { label: 'Beach Club', title: 'Beach Club Principal', desc: 'Sol, arena y todo lo que necesitas para relajarte.', schedule: ['Piscina Beach Club: 9:00 AM \u2013 6:00 PM', 'Piscina del Hotel: 9:00 AM \u2013 6:00 PM', '\u00c1rea del Beach Club: 11:00 AM \u2013 10:00 PM'], note: 'Camastros, palapa y 1 hora de p\u00e1del incluida.' }
+    },
+    spa: {
+      image: 'uploads/Foto-Spa.png',
+      en: { label: 'Spa', title: 'Spa', desc: 'Relax with a personalized treatment.', schedule: ['By appointment only.'], note: 'Book at the front desk.' },
+      es: { label: 'Spa', title: 'Spa', desc: 'Rel\u00e1jate con un tratamiento personalizado.', schedule: ['Solo con cita previa.'], note: 'Reserva en recepci\u00f3n.' }
+    },
+    casino: {
+      image: 'uploads/Foto-Casino.png',
+      en: { label: 'Casino', title: 'Casino', desc: 'Try your luck steps from your room.', schedule: ['Daily: 4:00 PM \u2013 3:00 AM'], note: 'Must be 18+ to enter.' },
+      es: { label: 'Casino', title: 'Casino', desc: 'Prueba tu suerte a pasos de tu habitaci\u00f3n.', schedule: ['Todos los d\u00edas: 4:00 PM \u2013 3:00 AM'], note: 'Entrada solo para mayores de 18 a\u00f1os.' }
+    }
+  };
+
+  componentDidMount() {
+    this._prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    this._onKeyDown = (e) => {
+      if (e.key === 'Escape' && this.state.activeModal) this._closeModal();
+    };
+    document.addEventListener('keydown', this._onKeyDown);
+
+    // Floating button - show after delay, hide when hero leaves viewport
+    this._floatingTimeout = setTimeout(() => {
+      if (!this.state.activeModal) this.setState({ showFloating: true });
+    }, 1500);
+
+    this._heroEl = document.querySelector('[data-screen-label="Hero"]');
+    if (this._heroEl) {
+      this._heroObserver = new IntersectionObserver((entries) => {
+        var heroVisible = entries[0].isIntersecting;
+        if (!this.state.activeModal) {
+          this.setState({ showFloating: heroVisible });
+        }
+      }, { threshold: 0.05 });
+      this._heroObserver.observe(this._heroEl);
+    }
+
+    setTimeout(() => this._setupReveals(), 300);
+  }
+
+  componentWillUnmount() {
+    if (this._observer) this._observer.disconnect();
+    if (this._heroObserver) this._heroObserver.disconnect();
+    if (this._floatingTimeout) clearTimeout(this._floatingTimeout);
+    document.removeEventListener('keydown', this._onKeyDown);
+    document.body.style.overflow = '';
+  }
+
+  _setupReveals() {
+    var revealEls = document.querySelectorAll('[data-reveal]');
+    var lineEls = document.querySelectorAll('[data-gold-line]');
+
+    if (this._prefersReducedMotion) {
+      revealEls.forEach(function(el) { el.style.opacity = '1'; el.style.transform = 'none'; });
+      lineEls.forEach(function(el) { el.style.width = '100%'; });
+      return;
+    }
+
+    this._observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var delay = parseFloat(el.dataset.revealDelay || '0') * 1000;
+
+        setTimeout(function() {
+          if (el.hasAttribute('data-gold-line')) {
+            el.style.transition = 'width 0.6s ease-out';
+            el.style.width = '100%';
+          } else if (el.hasAttribute('data-reveal-scale')) {
+            el.style.transition = 'opacity 0.5s cubic-bezier(0.2,1,0.3,1), transform 0.5s cubic-bezier(0.2,1,0.3,1)';
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0) scale(1)';
+          } else {
+            el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          }
+        }, delay);
+
+        this.unobserve(el);
+      }.bind(this));
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
+
+    revealEls.forEach(function(el) { this._observer.observe(el); }.bind(this));
+    lineEls.forEach(function(el) { this._observer.observe(el); }.bind(this));
+  }
+
+  _openModal = (serviceKey) => {
+    this.setState({ activeModal: serviceKey, showFloating: false }, () => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          this.setState({ modalVisible: true });
+          document.body.style.overflow = 'hidden';
+          var closeBtn = document.querySelector('[data-modal-close]');
+          if (closeBtn) closeBtn.focus();
+        });
+      });
+    });
+  };
+
+  _closeModal = () => {
+    this.setState({ modalVisible: false });
+    document.body.style.overflow = '';
+    // Re-check hero visibility for floating button
+    var heroVisible = this._heroEl ? this._heroEl.getBoundingClientRect().bottom > 0 : false;
+    setTimeout(() => {
+      this.setState({ activeModal: null, showFloating: heroVisible });
+    }, 350);
+  };
+
+  _setLang = (newLang) => {
+    if (newLang === this.state.lang) return;
+    this.setState({ fading: true });
+    setTimeout(() => {
+      this.setState({ lang: newLang, fading: false });
+    }, 150);
+  };
+
+  _stopProp = (e) => { e.stopPropagation(); };
+
+  _scrollToServices = () => {
+    var el = document.getElementById('services-section');
+    if (el) el.scrollIntoView ? el.scrollTo : null;
+    if (el) {
+      var y = el.getBoundingClientRect().top + window.scrollY - 20;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
+  renderVals() {
+    var state = this.state;
+    var lang = state.lang;
+    var en = lang === 'en';
+    var h = React.createElement;
+
+    // SVG icon helper
+    var svgProps = function(size) {
+      return { viewBox: '0 0 24 24', width: size, height: size, fill: 'none', stroke: '#C4A468', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flexShrink: 0 } };
+    };
+    var P = function(d, k) { return h('path', { d: d, key: k }); };
+
+    var gymIcon = h('svg', svgProps(30), P('M6.5 12h11','a'), P('M3.5 7.5v9','b'), P('M6.5 9v6','c'), P('M17.5 9v6','d'), P('M20.5 7.5v9','e'));
+    var restaurantIcon = h('svg', svgProps(30), P('M5 3v5','a'), P('M7 3v5','b'), P('M9 3v5','c'), P('M5 8c0 2 1 3 2 3s2-1 2-3','d'), P('M7 11v10','e'), P('M17 3v18','f'), P('M17 3c2.5 0 4.5 2.5 4.5 5.5S19.5 14 17 14','g'));
+    var openbarIcon = h('svg', svgProps(30), P('M8 2h8','a'), P('M7.5 2c.5 3 1.2 6.5 4.5 8','b'), P('M16.5 2c-.5 3-1.2 6.5-4.5 8','c'), P('M12 10v8','d'), P('M8 18h8','e'));
+    var beachclubIcon = h('svg', svgProps(30), P('M22 12a10 10 0 0 0-20 0','a'), P('M12 2v1','b'), P('M12 12v10','c'), P('M12 22a2 2 0 0 0 2-2','d'));
+    var spaIcon = h('svg', svgProps(30), P('M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z','a'));
+    var casinoIcon = h('svg', svgProps(30), h('rect', { x:3, y:3, width:18, height:18, rx:2, key:'r' }), h('circle',{cx:7.5,cy:7.5,r:1.2,fill:'#C4A468',stroke:'none',key:'c1'}), h('circle',{cx:16.5,cy:7.5,r:1.2,fill:'#C4A468',stroke:'none',key:'c2'}), h('circle',{cx:12,cy:12,r:1.2,fill:'#C4A468',stroke:'none',key:'c3'}), h('circle',{cx:7.5,cy:16.5,r:1.2,fill:'#C4A468',stroke:'none',key:'c4'}), h('circle',{cx:16.5,cy:16.5,r:1.2,fill:'#C4A468',stroke:'none',key:'c5'}));
+    var towelIcon = h('svg', svgProps(24), P('M2 6c2-3 4-3 6 0s4 3 6 0 4-3 6 0','w1'), P('M2 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0','w2'), P('M2 18c2-3 4-3 6 0s4 3 6 0 4-3 6 0','w3'));
+    var closeIcon = h('svg', { viewBox:'0 0 24 24', width:22, height:22, fill:'none', stroke:'currentColor', strokeWidth:2, strokeLinecap:'round', strokeLinejoin:'round' }, P('M18 6L6 18','a'), P('M6 6l12 12','b'));
+
+    var activeModal = state.activeModal;
+    var svc = activeModal ? this._services[activeModal] : null;
+    var svcData = svc ? svc[lang] : null;
+
+    var enBg = en ? '#F6D99F' : 'rgba(26,21,17,0.6)';
+    var enColor = en ? '#040403' : '#F1EEEA';
+    var enBorder = en ? '#F6D99F' : 'rgba(196,164,104,0.2)';
+    var esBg = !en ? '#F6D99F' : 'rgba(26,21,17,0.6)';
+    var esColor = !en ? '#040403' : '#F1EEEA';
+    var esBorder = !en ? '#F6D99F' : 'rgba(196,164,104,0.2)';
+
+    // Floating button visibility
+    var floatingEl = document.querySelector('[data-floating-btn]');
+    if (floatingEl) {
+      if (state.showFloating && !state.activeModal) {
+        floatingEl.style.opacity = '1';
+        floatingEl.style.pointerEvents = 'auto';
+        floatingEl.style.transform = 'translateX(-50%) translateY(0)';
+      } else {
+        floatingEl.style.opacity = '0';
+        floatingEl.style.pointerEvents = 'none';
+        floatingEl.style.transform = 'translateX(-50%) translateY(20px)';
+      }
+    }
+
+    return {
+      contentOpacity: state.fading ? '0.3' : '1',
+      setEN: () => this._setLang('en'),
+      setES: () => this._setLang('es'),
+      enBg: enBg, enColor: enColor, enBorder: enBorder,
+      esBg: esBg, esColor: esColor, esBorder: esBorder,
+
+      heroTitle: en ? 'Welcome to Hotel Tibisay Boutique' : 'Bienvenido a Hotel Tibisay Boutique',
+      heroSubtitle: en ? 'Everything you need to make the most of your stay, right here.' : 'Todo lo que necesitas para aprovechar tu estad\u00eda, aqu\u00ed.',
+      includedTitle: en ? 'Included in Your Stay' : 'Incluido en tu estad\u00eda',
+      includedHint: en ? 'Tap any service to see the schedule' : 'Toca un servicio para ver el horario',
+      additionalTitle: en ? 'Additional Services' : 'Servicios Adicionales',
+      additionalSubtitle: en ? 'Available at an extra cost. Tap for details.' : 'Con costo adicional. Toca para m\u00e1s detalles.',
+
+      gymLabel: en ? 'Gym' : 'Gimnasio',
+      restaurantLabel: en ? 'Restaurant' : 'Restaurante',
+      openbarLabel: en ? 'Open Bar' : 'Barra Libre',
+      beachclubLabel: en ? 'Beach Club' : 'Beach Club',
+      spaLabel: en ? 'Spa' : 'Spa',
+      casinoLabel: en ? 'Casino' : 'Casino',
+
+      gymIcon: gymIcon, restaurantIcon: restaurantIcon, openbarIcon: openbarIcon,
+      beachclubIcon: beachclubIcon, spaIcon: spaIcon, casinoIcon: casinoIcon,
+      towelIcon: towelIcon, closeIcon: closeIcon,
+
+      openGym: () => this._openModal('gym'),
+      openRestaurant: () => this._openModal('restaurant'),
+      openOpenbar: () => this._openModal('openbar'),
+      openBeachclub: () => this._openModal('beachclub'),
+      openSpa: () => this._openModal('spa'),
+      openCasino: () => this._openModal('casino'),
+
+      closeModal: this._closeModal,
+      stopProp: this._stopProp,
+      scrollToServices: this._scrollToServices,
+
+      modalOverlayOpacity: state.modalVisible ? '1' : '0',
+      modalPointerEvents: state.modalVisible ? 'auto' : 'none',
+      modalPanelTransform: state.modalVisible ? 'translateY(0)' : 'translateY(100%)',
+      modalHasContent: !!activeModal,
+      modalImage: svc ? svc.image : '',
+      modalTitle: svcData ? svcData.title : '',
+      modalDesc: svcData ? svcData.desc : '',
+      modalSchedule: svcData ? svcData.schedule : [],
+      modalNote: svcData && svcData.note ? svcData.note : '',
+      modalHasNote: svcData ? !!svcData.note : false,
+      modalHasNoNote: svcData ? !svcData.note : false,
+
+      towelTitle: en ? 'Towel Service' : 'Servicio de Toallas',
+      towelBody: en ? 'Towels for the gym, pools & beach are available at the front desk. Please return them to reception after use. Lost towels will incur a replacement fee.' : 'Las toallas para gimnasio, piscinas y playa se retiran en recepci\u00f3n. Por favor devu\u00e9lvelas en recepci\u00f3n al terminar. El extrav\u00edo de toallas genera un cargo por reposici\u00f3n.',
+      towelNote: en ? 'Going to an external beach? Towels are available with a refundable deposit at the front desk.' : '\u00bfVas a una playa externa? Toallas disponibles en recepci\u00f3n con garant\u00eda reembolsable.',
+
+      footerContact: en ? 'For any request, dial 0 from your room or visit our front desk.' : 'Para cualquier solicitud, marca 0 desde tu habitaci\u00f3n o acude a recepci\u00f3n.',
+      footerClosing: en ? "We're here to make your stay unforgettable." : 'Estamos aqu\u00ed para que tu estad\u00eda sea inolvidable.',
+
+      floatingLabel: en ? 'More services' : 'M\u00e1s servicios',
+      floatingAriaLabel: en ? 'Scroll to services' : 'Ir a servicios'
+    };
+  }
+}
+
+</script>
+</body>
+</html>
