@@ -26,7 +26,7 @@ export const Hero = forwardRef<HTMLDivElement>(function Hero(_props, ref) {
         className="absolute inset-0"
         style={{
           background:
-            'linear-gradient(to top, rgba(4,4,3,0.92) 0%, rgba(4,4,3,0.5) 40%, rgba(4,4,3,0.15) 70%, transparent 100%)',
+            'linear-gradient(to top, rgba(4,4,3,0.97) 0%, rgba(4,4,3,0.95) 55%, rgba(4,4,3,0.85) 80%, rgba(4,4,3,0.6) 100%)',
         }}
       />
       <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center px-6 pt-0 pb-9 text-center">
