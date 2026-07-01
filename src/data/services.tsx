@@ -34,14 +34,14 @@ export const includedServices: ServiceDef[] = [
       title: 'Gym',
       desc: 'Stay active during your getaway.',
       schedule: ['Monday – Friday: 5:10 AM – 10:30 PM', 'Saturday: 6:00 AM – 8:00 PM', 'Sunday: 8:00 AM – 1:00 PM'],
-      note: 'Located on the ground floor. No reservation needed.',
+      note: 'Located on the terrace. No reservation needed.',
     },
     es: {
       label: 'Gimnasio',
       title: 'Gimnasio',
       desc: 'Mantente activo durante tu escapada.',
       schedule: ['Lunes – Viernes: 5:10 AM – 10:30 PM', 'Sábado: 6:00 AM – 8:00 PM', 'Domingo: 8:00 AM – 1:00 PM'],
-      note: 'Ubicado en planta baja. Sin reservación.',
+      note: 'Ubicado en la terraza. Sin reservación.',
     },
   },
   {
