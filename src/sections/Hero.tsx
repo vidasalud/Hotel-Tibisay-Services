@@ -13,7 +13,7 @@ export const Hero = forwardRef<HTMLDivElement>(function Hero(_props, ref) {
   const reducedMotion = usePrefersReducedMotion();
 
   return (
-    <div ref={ref} className="relative h-[80vh] w-full overflow-hidden rounded-b-[28px] lg:h-[50vh]">
+    <div ref={ref} className="relative h-[min(58vh,560px)] w-full overflow-hidden rounded-b-[28px] lg:h-[50vh]">
       <motion.img
         src={heroImage}
         alt="Hotel Tibisay Boutique"
